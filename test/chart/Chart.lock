@@ -1,0 +1,9 @@
+dependencies:
+- name: lib-utils
+  repository: file://../../lib-utils
+  version: 0.0.1
+- name: lib-configuration
+  repository: file://../../lib-configuration
+  version: 0.0.1
+digest: sha256:55e8cb78ab2384c1104d72c93c7520da0f7cea336bf0e0e2eb94bfe9087af1c8
+generated: "2022-09-20T15:31:01.441884252+02:00"

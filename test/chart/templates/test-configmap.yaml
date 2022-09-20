@@ -1,0 +1,3 @@
+{{ $values := .Files.Get "config/test.yaml" }}
+{{ $args := dict "root" . "name" "test" "values" $values }}
+{{- include "lib-configuration.config-map" $args }}

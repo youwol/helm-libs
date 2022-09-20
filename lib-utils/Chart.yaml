@@ -1,0 +1,5 @@
+apiVersion: v2
+name: lib-utils
+description: Miscellaneous functions for Youwol
+type: library
+version: 0.0.1

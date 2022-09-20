@@ -1,0 +1,6 @@
+dependencies:
+- name: lib-utils
+  repository: https://gitlab.com/api/v4/projects/15166395/packages/helm/stable/
+  version: 0.0.1
+digest: sha256:4d6cef454471fb77a12ec163bc343a525a826812be667a5b61590aa1ceb91edc
+generated: "2022-09-20T15:47:25.736615967+02:00"

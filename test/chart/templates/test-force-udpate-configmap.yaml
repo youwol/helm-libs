@@ -1,0 +1,13 @@
+{{- $name := "test-force-update" }}
+{{- $forceUpdateArgs := dict "root" . "name" $name "kind" "ConfigMap" }}
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: {{ $name }}
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    {{- include "lib-utils.force-update" $forceUpdateArgs | indent 4 }}
+
+data:
+  foo: "bar"

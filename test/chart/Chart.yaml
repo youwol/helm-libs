@@ -1,0 +1,13 @@
+apiVersion: v2
+name: helm-libs-test
+version: 0.0.1
+appVersion: 0.0.1
+
+dependencies:
+  - name: lib-utils
+    version: 0.0.1
+    repository: file://../../lib-utils
+
+  - name: lib-configuration
+    version: 0.0.1
+    repository: file://../../lib-configuration

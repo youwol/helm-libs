@@ -6,7 +6,7 @@ Libraries collection for Helm charts development.
 
 Provide ```lib-utils.force-update``` template, for managing ```youwol.com/force-update-marker``` annotation.
 
-More detail on how to use in dedicated [README.md](./lib-utils/README.md)
+More detail on how to use in the README.md of directory [lib-utils](./lib-utils)
 
 ## lib-configuration
 
@@ -18,10 +18,10 @@ com/force-update-marker``` and ```youwol.com/checksum```.
 * ```lib-configuration.duplicate-config-map```: duplicating existing Kubernetes ConfigMap across namespaces.
 * ```lib-configuration.duplicate-secret```: duplicating existing Kubernetes Secret across namespaces.
 
-More detail on these templates in dedicated [README.md](./lib-configuration/README.md)
+More detail on these templates in the README.md of directory [lib-configuration](./lib-configuration)
 
 ## lib-backend
 
 Provide templates for managing Helm Chart deploying Youwol backends.
 
-More detail on these templates in dedicated [README.md](./lib-backend/README.md)
+More detail on these templates in the README.md of directory [lib-backend](./lib-backend)

@@ -1,6 +1,22 @@
 # lib-utils
 
-Common utilies fonctions template for Youwol Helm charts.
+Common utilities fonctions template for Youwol Helm charts.
+
+To start using it, add it to your Helm chart dependencies :
+
+```yaml
+# file ./Chart.yaml
+apiVersion: v2
+name: mychart
+version: 0.1.0
+appVersion: 0.0.1
+
+dependencies:
+  - name: lib-utils
+    version: 0.0.1
+    repository: https://gitlab.com/api/v4/projects/15166395/packages/helm/stable/
+
+```
 
 ## ```lib-utils.force-update```
 
@@ -11,7 +27,7 @@ Though currently the annotation’s value is an UUIDv4, it has no meaning by its
 This template take a dictionary as its argument, with the following keys:
 
 * ```root``` : the root object, for accessing ```.Release```, ```.Values```, etc. in subcharts
-* ```king``` : the kind of the object templated
+* ```kind``` : the kind of the object templated
 * ```name``` : the name of the object templated
 
 ### Policy
@@ -32,10 +48,43 @@ NB: Do note that on subsequent upgrade, a given release will keep policy previou
 
 ### Examples
 
-Here we want to ignore this mechanism for almost all objects in the release
-but force update of object ```updatedObject```.
-Only ```updatedObject``` will bear a new value for the annotation, regardless its current metadata. All other deployed 
+Here we want to ignore this mechanism for almost all objects in the release but force update of object ```updatedObject```.
+Only ```updatedObject``` will bear a new value for the annotation, regardless its current metadata. All other deployed
 objects will be untouched, should they bear the annotation or not.
+
+```gotemplate
+{{/* Far sake of brevity tow objects: 'updatedObject' will be updated, 'untouchedObject' will not */}}
+---
+{{- $name := "updatedObject" }}
+  {{- $forceUpdateArgs := dict "root" . "name" $name "kind" "ConfigMap" }}
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: {{ $name }}
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    {{- include "lib-utils.force-update" $forceUpdateArgs | indent 4 }}
+
+data:
+  foo: "toto"
+---
+{{- $name := "untouchedObject" }}
+  {{- $forceUpdateArgs := dict "root" . "name" $name "kind" "ConfigMap" }}
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: {{ $name }}
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    {{- include "lib-utils.force-update" $forceUpdateArgs | indent 4 }}
+
+data:
+  bar: "42"
+```
+
+
 
 #### Using ```values.yaml``` file
 

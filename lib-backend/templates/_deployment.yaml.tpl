@@ -9,7 +9,7 @@ metadata:
     {{- include "lib-backend.labels" . | nindent 4 }}
 
 spec:
-  replicas: 1
+  replicas: {{ include "lib-backend.deployment.replicas" . }}
   selector:
     matchLabels:
       {{- include "lib-backend.selectorLabels" . | nindent 6 }}
@@ -22,6 +22,7 @@ spec:
       containers:
         - name: {{ .Chart.Name }}
           {{- include "lib-backend.image.spec" . | indent 10 }}
+          {{- include "lib-backend.deployment.resources" . | indent 10 }}
           ports:
             - name: http
               containerPort: 8080
@@ -41,4 +42,5 @@ spec:
           env:
             {{- include "lib-backend.probeSecret.env" (dict "root" . "value" $probeSecret) | nindent 12 }}
             {{- include "lib-backend.env.spec" . | nindent 12 }}
+
 {{- end -}}

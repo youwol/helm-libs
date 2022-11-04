@@ -2,4 +2,4 @@ apiVersion: v2
 name: lib-backend
 description: Common templates for Youwol backends
 type: library
-version: 0.0.5
+version: 0.0.6

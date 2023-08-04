@@ -40,7 +40,6 @@ spec:
               port: 8080
               path: /observability/startup
           env:
-            {{- include "lib-backend.probeSecret.env" (dict "root" . "value" $probeSecret) | nindent 12 }}
             {{- include "lib-backend.env.spec" . | nindent 12 }}
 
 {{- end -}}

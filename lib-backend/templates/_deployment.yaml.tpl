@@ -27,18 +27,18 @@ spec:
             - name: http
               containerPort: 8080
               protocol: TCP
+          readinessProbe:
+            httpGet:
+              port: 8080
+              path: /observability/readiness
           livenessProbe:
             httpGet:
-              path: /healthz
-              port: http
-              {{- with include "lib-backend.probeSecret.probeHttpHeaders" (dict "root" . "value" $probeSecret) }}
-              httpHeaders:
-                {{- . | nindent 16 }}
-              {{- end }}
-            initialDelaySeconds: 15
-            periodSeconds: 15
-            timeoutSeconds: 5
-            failureThreshold: 3
+              port: 8080
+              path: /observability/liveness
+          startupProbe:
+            httpGet:
+              port: 8080
+              path: /observability/startup
           env:
             {{- include "lib-backend.probeSecret.env" (dict "root" . "value" $probeSecret) | nindent 12 }}
             {{- include "lib-backend.env.spec" . | nindent 12 }}

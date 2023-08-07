@@ -13,10 +13,10 @@ metadata:
     {{- include "lib-backend.labels" . | nindent 4 }}
   annotations:
     kubernetes.io/tls-acme: "true"
-    cert-manager.io/cluster-issuer: letsencrypt
+    cert-manager.io/cluster-issuer: letsencrypt-youwol
     konghq.com/https-redirect-status-code: "301"
     konghq.com/protocols: https
-    konghq.com/strip-path: "true"
+    konghq.com/strip-path: "false"
     konghq.com/regex-priority: "0"
 
 spec:

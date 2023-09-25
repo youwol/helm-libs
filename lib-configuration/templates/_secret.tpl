@@ -56,10 +56,10 @@ metadata:
   namespace: {{ $root.Release.Namespace }}
   annotations:
     youwol.com/duplicate-of: secret/{{ $namespace }}.{{ $name }}
-    {{- if hasKey $original.metadata.annotations "youwol.com/checksum" }}
+    {{- if and ($original.metadata.annotations) (hasKey $original.metadata.annotations "youwol.com/checksum") }}
     youwol.com/checksum: {{ get $original.metadata.annotations "youwol.com/checksum" }}
     {{- end}}
-    {{- if hasKey $original.metadata.annotations "youwol.com/force-update-marker"}}
+    {{- if and ($original.metadata.annotations) (hasKey $original.metadata.annotations "youwol.com/force-update-marker") }}
     youwol.com/force-update-marker: {{get $original.metadata.annotations "youwol.com/force-update-marker"}}
     {{- end }}
 data:

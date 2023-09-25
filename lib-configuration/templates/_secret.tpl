@@ -2,7 +2,8 @@
 {{- $root := required "lib-configuration.secret template expects key '.root' in scope" .root}}
 {{- $name := required "lib-configuration.secret template expects key '.name' in scope" .name}}
 {{- $keys := required "lib-configuration.secret template expects key '.keys' in scope" .keys}}
-{{- $secretDataArgs := dict "root" $root "name" $name "keys" $keys }}
+{{- $generateKeys := .generateKeys | default (list) }}
+{{- $secretDataArgs := dict "root" $root "name" $name "keys" $keys "generateKeys" $generateKeys }}
 {{- $data := include "lib-configuration.secret-data" $secretDataArgs }}
 {{- $forceUpdateArgs := dict "root" $root "kind" "Secret" "name" $name}}
 apiVersion: v1
@@ -25,8 +26,10 @@ data:
 {{- $root := required "lib-configuration.secret-entry template expects key '.root' in scope" .root }}
 {{- $name := required "lib-configuration.secret template expects key '.name' in scope" .name }}
 {{- $keys := required "lib-configuration.secret template expects key '.keys' in scope" .keys }}
+{{- $generateKeys := .generateKeys }}
 {{- range .keys}}
-{{- include "lib-configuration.secret-data-item" (dict "root" $root "name" $name "key" .) | nindent 2}}
+{{- $generate := $generateKeys | has . }}
+{{- include "lib-configuration.secret-data-item" (dict "root" $root "name" $name "key" . "generate" $generate ) | nindent 2}}
 {{- end}}
 {{- end}}
 
@@ -40,7 +43,14 @@ data:
 {{- if $root.Values.overrideSecrets }}
 {{- $overrideValue = get (get $root.Values.overrideSecrets $name | default (dict)) $key | b64enc }}
 {{- end }}
-{{- $key }}: {{ $overrideValue | default $existingValue | default (randAlphaNum 32 | b64enc ) | quote }}
+{{- $providedValue := $overrideValue | default $existingValue }}
+{{- $unquotedValue := ""}}
+{{- if .generate }}
+{{- $unquotedValue = $providedValue | default (randAlphaNum 32 | b64enc )}}
+{{- else }}
+{{- $unquotedValue = required (printf "value for %s must be provided, for instance with --set overrideSecrets.%s.%s" $key $name $key) $providedValue }}
+{{- end }}
+{{- $key }}: {{ $unquotedValue | quote }}
 {{- end}}
 
 {{- define  "lib-configuration.duplicate-secret" }}

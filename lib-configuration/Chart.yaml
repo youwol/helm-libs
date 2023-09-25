@@ -2,7 +2,7 @@ apiVersion: v2
 name: lib-configuration
 description: Configmap and Secrets utils for Youwol
 type: library
-version: 0.0.1
+version: 0.0.2
 
 dependencies:
   - name: lib-utils

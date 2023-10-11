@@ -22,7 +22,8 @@ spec:
       containers:
         - name: {{ .Chart.Name }}
           {{- include "lib-backend.image.spec" . | indent 10 }}
-          {{- include "lib-backend.deployment.resources" . | indent 10 }}
+          args:
+            {{- include "lib-backend.image.args" . | indent 12 }}
           ports:
             - name: http
               containerPort: 8080
@@ -41,5 +42,6 @@ spec:
               path: /observability/startup
           env:
             {{- include "lib-backend.env.spec" . | nindent 12 }}
+          {{- include "lib-backend.deployment.resources" . | indent 10 }}
 
 {{- end -}}

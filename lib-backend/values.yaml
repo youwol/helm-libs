@@ -45,6 +45,11 @@
 #
 # imageTag: "latest"
 
+# container arg : list of strings
+#
+# If not set, the name of the chart will be use as a singleton list for the container args
+#
+# containerArgs: []
 
 # Image pull policy : one of "Always", "IfNotPresent" or "Never"
 #

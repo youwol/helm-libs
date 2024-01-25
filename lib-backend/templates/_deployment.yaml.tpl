@@ -28,6 +28,11 @@ spec:
             - name: http
               containerPort: 8080
               protocol: TCP
+          securityContext:
+            readOnlyRootFileSystem: true
+            runAsNonRoot: true
+            runAsUser: 10000
+            runAsGroup: 10000
           readinessProbe:
             httpGet:
               port: 8080

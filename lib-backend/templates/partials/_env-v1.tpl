@@ -1,11 +1,20 @@
 {{- define "lib-backend.env-v1.spec" -}}
 {{ if default .Values.env false -}}
+{{- include "lib-backend.env-v1.forwardedAllowIps" . -}}
 {{- include "lib-backend.env-v1.openidBaseUrl" . -}}
 {{- include "lib-backend.env-v1.openidClient" . -}}
 {{- include "lib-backend.env-v1.keycloakAdmin" . -}}
 {{- include "lib-backend.env-v1.redis" . -}}
 {{- include "lib-backend.env-v1.minio" . -}}
 {{- end -}}
+{{- end -}}
+
+{{- define "lib-backend.env-v1.forwardedAllowIps" -}}
+{{ if has "forwardedAllowIps" .Values.env  -}}
+# Environment variables for openidBaseUrl
+- name: FORWARDED_ALLOW_IPS
+  value: "*"
+{{ end -}}
 {{- end -}}
 
 {{- define "lib-backend.env-v1.openidBaseUrl" -}}

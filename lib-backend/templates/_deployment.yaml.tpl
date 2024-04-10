@@ -19,6 +19,12 @@ spec:
         {{- include "lib-backend.selectorLabels" . | nindent 8 }}
     spec:
       serviceAccountName: {{ include "lib-backend.fullname" . }}
+      {{- if .Values.tempVolume }}
+      volumes:
+        - name: temp
+          emptyDir:
+            medium: Memory
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           {{- include "lib-backend.image.spec" . | indent 10 }}
@@ -48,5 +54,10 @@ spec:
           env:
             {{- include "lib-backend.env.spec" . | nindent 12 }}
           {{- include "lib-backend.deployment.resources" . | indent 10 }}
+          {{- if .Values.tempVolume }}
+          volumeMounts:
+            - mountPath: /tmp
+              name: temp
+          {{- end }}
 
 {{- end -}}
